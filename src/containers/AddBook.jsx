@@ -32,7 +32,7 @@ const AddBook = () => {
     if (status === "Edit") {
       updateBook(newBook);
     } else {
-      showToast("Login successful", { type: "success" });
+      showToast("Book Added", { type: "success" });
       addBook(newBook);
     }
 
