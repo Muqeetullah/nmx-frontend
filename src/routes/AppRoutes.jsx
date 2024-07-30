@@ -16,6 +16,8 @@ import AddBook from "../containers/AddBook";
 import SignIn from "../containers/SignIn";
 import Layout from "../components/Layout";
 import CarouselController from "../components/CarouselController";
+import { ErrorBoundary } from "react-error-boundary";
+import FallbackScreen from "../components/ErrorScreen";
 
 const AppRoutes = () => {
   const jsonString = localStorage.getItem("user");
@@ -70,7 +72,9 @@ const AppRoutes = () => {
       path: "/login",
       element: (
         <PublicRoutes>
-          <SignIn />
+          <ErrorBoundary FallbackComponent={FallbackScreen}>
+            <SignIn />
+          </ErrorBoundary>
         </PublicRoutes>
       ),
     },

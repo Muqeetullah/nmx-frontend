@@ -49,16 +49,14 @@ const SignIn = () => {
   };
 
   return (
-    <ErrorBoundary FallbackComponent={FallbackScreen}>
-      <SignInUI
-        handleSubmit={handleSubmit}
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        error={error}
-      />
-    </ErrorBoundary>
+    <SignInUI
+      handleSubmit={handleSubmit}
+      email={email}
+      setEmail={setEmail}
+      password={password}
+      setPassword={setPassword}
+      error={error}
+    />
   );
 };
 
