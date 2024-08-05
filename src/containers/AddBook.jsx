@@ -31,6 +31,7 @@ const AddBook = () => {
   const handleAddOrUpdateBook = () => {
     if (status === "Edit") {
       updateBook(newBook);
+      showToast("Book Updated", { type: "success" });
     } else {
       showToast("Book Added", { type: "success" });
       addBook(newBook);

@@ -8,6 +8,7 @@ const SignInUI = ({
   setPassword,
   error,
 }) => {
+  // throw new Error("Not implemented");
   return (
     <div className="flex w-full items-center justify-center min-h-screen">
       <div className="w-full sm:w-1/2 lg:w-1/3 bg-white p-8 rounded shadow">

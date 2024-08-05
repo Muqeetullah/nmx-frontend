@@ -7,6 +7,7 @@ const BookFormUI = ({
   handleInputChange,
   handleAddOrUpdateBook,
 }) => {
+  // throw new Error("BookFormUI is not implemented");
   return (
     <div className="flex w-full items-center justify-center mt-10">
       <div className="mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
@@ -29,21 +30,16 @@ const BookFormUI = ({
               type="text"
               id="name"
               name="name"
-              value={newBook.name}
+              value={newBook?.name}
               onChange={(e) => handleInputChange(e, "name")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                errors.length > 0 &&
-                errors.some((error) => error.name === "name")
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
             />
-            {errors.length > 0 &&
+            {/* {errors.length > 0 &&
               errors.some((error) => error.name === "name") && (
                 <div className="text-red-600 mt-1 text-sm">
                   {errors.find((err) => err.name === "name")?.error}
                 </div>
-              )}
+              )} */}
           </div>
           <div>
             <label
@@ -56,21 +52,16 @@ const BookFormUI = ({
               type="text"
               id="author"
               name="author"
-              value={newBook.author}
+              value={newBook?.author}
               onChange={(e) => handleInputChange(e, "author")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                errors.length > 0 &&
-                errors.some((error) => error.name === "author")
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
             />
-            {errors.length > 0 &&
+            {/* {errors.length > 0 &&
               errors.some((error) => error.name === "author") && (
                 <div className="text-red-600 mt-1 text-sm">
                   {errors.find((err) => err.name === "author")?.error}
                 </div>
-              )}
+              )} */}
           </div>
           <div>
             <label
@@ -83,21 +74,16 @@ const BookFormUI = ({
               type="text"
               id="genre"
               name="genre"
-              value={newBook.genre}
+              value={newBook?.genre}
               onChange={(e) => handleInputChange(e, "genre")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                errors.length > 0 &&
-                errors.some((error) => error.name === "genre")
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
             />
-            {errors.length > 0 &&
+            {/* {errors.length > 0 &&
               errors.some((error) => error.name === "genre") && (
                 <div className="text-red-600 mt-1 text-sm">
                   {errors.find((err) => err.name === "genre")?.error}
                 </div>
-              )}
+              )} */}
           </div>
           <div>
             <label
@@ -110,21 +96,16 @@ const BookFormUI = ({
               type="number"
               id="price"
               name="price"
-              value={newBook.price}
+              value={newBook?.price}
               onChange={(e) => handleInputChange(e, "price")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ${
-                errors.length > 0 &&
-                errors.some((error) => error.name === "price")
-                  ? "border-red-500"
-                  : "border-gray-300"
-              }`}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm   `}
             />
-            {errors.length > 0 &&
+            {/* {errors.length > 0 &&
               errors.some((error) => error.name === "price") && (
                 <div className="text-red-600 mt-1 text-sm">
                   {errors.find((err) => err.name === "price")?.error}
                 </div>
-              )}
+              )} */}
           </div>
           <div className="col-span-2 mt-6 flex justify-end">
             <button

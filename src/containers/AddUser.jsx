@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import UserFormUI from "../components/UserFormUI";
 import { useUser } from "../context/UserContext";
+import { useToast } from "../context/ToastContext";
 
 const AddUser = () => {
   const { addUser, updateUser } = useUser();
@@ -16,6 +17,7 @@ const AddUser = () => {
     age: 0,
     gender: "",
   });
+  const { showToast } = useToast();
   const [errors, setErrors] = useState([]);
   const location = useLocation();
   const [status, setStatus] = useState("");
@@ -37,8 +39,9 @@ const AddUser = () => {
 
     if (status === "Edit") {
       updateUser(newUser);
+      showToast("User Updated", { type: "success" });
     } else {
-      showToast()
+      showToast("User Added", { type: "success" });
       addUser(newUser);
     }
 

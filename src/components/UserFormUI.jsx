@@ -7,6 +7,7 @@ const UserFormUI = ({
   handleInputChange,
   handleAddOrUpdateUser,
 }) => {
+  // throw new Error("Not implemented");
   return (
     <div className="flex w-full items-center justify-center mt-10">
       <div className="mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">

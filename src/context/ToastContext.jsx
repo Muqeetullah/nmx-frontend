@@ -30,10 +30,12 @@ export const ToastProvider = ({ children }) => {
   const [isPending, startTransition] = useTransition();
 
   const toastRef = useRef();
-
   useLayoutEffect(() => {
     if (toastRef.current) {
-      toastRef.current.style.backgroundColor = "red";
+      toastRef.current.anchorOrigin = {
+        vertical: "bottom",
+        horizontal: "left",
+      };
     }
   }, [toastConfig]);
 
@@ -68,13 +70,12 @@ export const ToastProvider = ({ children }) => {
     <ToastContext.Provider value={{ showToast, isPending }}>
       {children}
       <Snackbar
-        ref={toastRef}
         open={toastConfig.open}
         autoHideDuration={6000}
         onClose={handleClose}
         message={toastConfig.message}
         action={action}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        anchorOrigin={toastConfig.options.anchorOrigin}
       />
     </ToastContext.Provider>
   );
