@@ -6,20 +6,23 @@ import UserFormUI from "../components/UserFormUI";
 import { useUser } from "../context/UserContext";
 import { useToast } from "../context/ToastContext";
 import { yupResolver } from "@hookform/resolvers/yup";
+import ChangePasswordModal from "../components/PasswordModa";
+import { Button } from "@mui/material";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string()
+  password: yup
+    .string()
     .required("Password is required")
     .min(8, "Password must be at least 8 characters long")
     .matches(/[a-z]/, "Password must contain at least one lowercase letter")
     .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
     .matches(/[0-9]/, "Password must contain at least one number"),
-
-  confirmPassword: Yup.string()
+  confirmPassword: yup
+    .string()
     .required("Confirm password is required")
-    .oneOf([Yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
   role: yup.string().required("Role is required"),
   education: yup.string().required("Education is required"),
   age: yup.number().positive().integer().required("Age is required"),
@@ -48,6 +51,7 @@ const schema = yup.object().shape({
 
 const AddUser = () => {
   const [status, setStatus] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const { addUser, updateUser } = useUser();
   const navigate = useNavigate();
@@ -71,6 +75,7 @@ const AddUser = () => {
       books: [{ bookName: "", issueDate: "" }],
     },
   });
+
   const { handleSubmit, watch, reset } = methods;
   const watchRole = watch("role");
 
@@ -96,6 +101,16 @@ const AddUser = () => {
     navigate("/admin/view-user-list");
   };
 
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    console.log("Password Changed");
+    setShowModal(false);
+  };
+  console.log(showModal);
+
   return (
     <FormProvider {...methods}>
       <UserFormUI
@@ -103,6 +118,14 @@ const AddUser = () => {
         showUserFields={showUserFields}
         status={status}
       />
+      <Button
+        variant="outlined"
+        onClick={handleOpenModal}
+        sx={{ position: "absolute", top: 100, right: 16 }}
+      >
+        Change Password
+      </Button>
+      <ChangePasswordModal open={showModal} handleClose={handleCloseModal} />
     </FormProvider>
   );
 };
