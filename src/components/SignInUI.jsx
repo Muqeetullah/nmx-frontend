@@ -1,54 +1,57 @@
 import React from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
+  Stack,
+} from "@mui/material";
 
-const SignInUI = ({
-  handleSubmit,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  error,
-}) => {
-  // throw new Error("Not implemented");
+const SignInUI = ({ handleSubmit, register, errors }) => {
   return (
-    <div className="flex w-full items-center justify-center min-h-screen">
-      <div className="w-full sm:w-1/2 lg:w-1/3 bg-white p-8 rounded shadow">
-        <h2 className="text-2xl font-bold mb-4">Sign In</h2>
-
+    <Container
+      maxWidth="sm"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        width: "100%",
+      }}
+    >
+      <Stack spacing={2} width={400}>
+        <Typography align="center" variant="h4" component="h2" gutterBottom>
+          Sign In
+        </Typography>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block mb-2 text-start">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+          <Box mb={3}>
+            <TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block mb-2 text-start">
-              Password
-            </label>
-            <input
+          </Box>
+          <Box mb={3}>
+            <TextField
+              fullWidth
+              label="Password"
               type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded"
+              variant="outlined"
+              {...register("password")}
+              error={!!errors.password}
+              helperText={errors.password?.message}
             />
-          </div>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
-          <button
-            type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
+          </Box>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
             Sign In
-          </button>
+          </Button>
         </form>
-      </div>
-    </div>
+      </Stack>
+    </Container>
   );
 };
 

@@ -1,19 +1,36 @@
-import React, { FormEvent, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
 import SignInUI from "../components/SignInUI";
 import { useToast } from "../context/ToastContext";
-import { ErrorBoundary } from "react-error-boundary";
-import FallbackScreen from "../components/ErrorScreen";
+
+const schema = yup
+  .object({
+    email: yup.string().email("Invalid email").required("Email is required"),
+    password: yup.string().required("Password is required"),
+  })
+  .required();
 
 const SignIn = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [error, setError] = useState();
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
   const { showToast } = useToast();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = (data) => {
+    const { email, password } = data;
 
     try {
       if (email === "user@gmail.com" && password === "1234") {
@@ -40,9 +57,8 @@ const SignIn = () => {
 
         showToast("Login successful", { type: "success" });
       } else {
-        showToast("Login failed", { type: "error" });
+        showToast("Invalid credentials", { type: "error" });
       }
-      setError("Invalid credentials");
     } catch (err) {
       console.log(err);
     }
@@ -50,12 +66,9 @@ const SignIn = () => {
 
   return (
     <SignInUI
-      handleSubmit={handleSubmit}
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
-      error={error}
+      handleSubmit={handleSubmit(onSubmit)}
+      register={register}
+      errors={errors}
     />
   );
 };

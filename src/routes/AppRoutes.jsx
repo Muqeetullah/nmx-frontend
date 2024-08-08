@@ -16,11 +16,10 @@ import AddBook from "../containers/AddBook";
 import SignIn from "../containers/SignIn";
 import Layout from "../components/Layout";
 import CarouselController from "../components/CarouselController";
-import { ErrorBoundary } from "../components/ErrorBoundryClass";
 
-// import { ErrorBoundary } from "react-error-boundary";
-// import FallbackScreen from "../components/ErrorScreen";
-// import FormComponent from "../HOC/validation";
+import { ErrorBoundary } from "react-error-boundary";
+import FallbackScreen from "../components/ErrorScreen";
+import Form from "../components/TestComponent";
 
 const AppRoutes = () => {
   const jsonString = localStorage.getItem("user");
@@ -58,7 +57,7 @@ const AppRoutes = () => {
     {
       path: "carousel",
       element: (
-        <ErrorBoundary>
+        <ErrorBoundary FallbackComponent={FallbackScreen}>
           <CarouselController />
         </ErrorBoundary>
       ),
@@ -79,7 +78,7 @@ const AppRoutes = () => {
       path: "/login",
       element: (
         <PublicRoutes>
-          <ErrorBoundary>
+          <ErrorBoundary FallbackComponent={FallbackScreen}>
             <SignIn />
           </ErrorBoundary>
         </PublicRoutes>
