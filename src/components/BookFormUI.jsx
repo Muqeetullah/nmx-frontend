@@ -1,13 +1,7 @@
+// BookFormUI.tsx
 import React from "react";
 
-const BookFormUI = ({
-  newBook,
-  status,
-  errors,
-  handleInputChange,
-  handleAddOrUpdateBook,
-}) => {
-  // throw new Error("BookFormUI is not implemented");
+const BookFormUI = ({ newBook, handleSubmit, register, errors, status }) => {
   return (
     <div className="flex w-full items-center justify-center mt-10">
       <div className="mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
@@ -16,9 +10,48 @@ const BookFormUI = ({
         </h1>
 
         <form
-          onSubmit={handleAddOrUpdateBook}
+          onSubmit={handleSubmit}
           className="grid grid-cols-1 gap-4 md:grid-cols-2"
         >
+          <div>
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Category
+            </label>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              defaultValue={newBook.category}
+              {...register("category", { required: "Category is required" })}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+            />
+            {errors.category && (
+              <p className="text-red-500">{errors.category.message}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="isbn"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ISBN
+            </label>
+            <input
+              type="text"
+              id="isbn"
+              // disabled={status === "Edit"}
+              name="isbn"
+              defaultValue={newBook.isbn}
+              {...register("isbn", { required: "ISBN is required" })}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+            />
+            {errors.isbn && (
+              <p className="text-red-500">{errors.isbn.message}</p>
+            )}
+          </div>
           <div>
             <label
               htmlFor="name"
@@ -30,60 +63,13 @@ const BookFormUI = ({
               type="text"
               id="name"
               name="name"
-              value={newBook?.name}
-              onChange={(e) => handleInputChange(e, "name")}
+              defaultValue={newBook.name}
+              {...register("name", { required: "Book title is required" })}
               className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
             />
-            {/* {errors.length > 0 &&
-              errors.some((error) => error.name === "name") && (
-                <div className="text-red-600 mt-1 text-sm">
-                  {errors.find((err) => err.name === "name")?.error}
-                </div>
-              )} */}
-          </div>
-          <div>
-            <label
-              htmlFor="author"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Author
-            </label>
-            <input
-              type="text"
-              id="author"
-              name="author"
-              value={newBook?.author}
-              onChange={(e) => handleInputChange(e, "author")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-            />
-            {/* {errors.length > 0 &&
-              errors.some((error) => error.name === "author") && (
-                <div className="text-red-600 mt-1 text-sm">
-                  {errors.find((err) => err.name === "author")?.error}
-                </div>
-              )} */}
-          </div>
-          <div>
-            <label
-              htmlFor="genre"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Genre
-            </label>
-            <input
-              type="text"
-              id="genre"
-              name="genre"
-              value={newBook?.genre}
-              onChange={(e) => handleInputChange(e, "genre")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-            />
-            {/* {errors.length > 0 &&
-              errors.some((error) => error.name === "genre") && (
-                <div className="text-red-600 mt-1 text-sm">
-                  {errors.find((err) => err.name === "genre")?.error}
-                </div>
-              )} */}
+            {errors.name && (
+              <p className="text-red-500">{errors.name.message}</p>
+            )}
           </div>
           <div>
             <label
@@ -96,16 +82,35 @@ const BookFormUI = ({
               type="number"
               id="price"
               name="price"
-              value={newBook?.price}
-              onChange={(e) => handleInputChange(e, "price")}
-              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm   `}
+              defaultValue={newBook.price}
+              {...register("price", { required: "Price is required", min: 0 })}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
             />
-            {/* {errors.length > 0 &&
-              errors.some((error) => error.name === "price") && (
-                <div className="text-red-600 mt-1 text-sm">
-                  {errors.find((err) => err.name === "price")?.error}
-                </div>
-              )} */}
+            {errors.price && (
+              <p className="text-red-500">{errors.price.message}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="quantity"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Quantity
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              defaultValue={newBook.quantity}
+              {...register("quantity", {
+                required: "Quantity is required",
+                min: 0,
+              })}
+              className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+            />
+            {errors.quantity && (
+              <p className="text-red-500">{errors.quantity.message}</p>
+            )}
           </div>
           <div className="col-span-2 mt-6 flex justify-end">
             <button

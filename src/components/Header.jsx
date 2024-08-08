@@ -17,7 +17,7 @@ const Header = () => {
 
   useEffect(() => {
     // Check if user exists in localStorage on mount
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("userData");
     if (storedUser) {
       setRole(JSON.parse(storedUser).role);
     }

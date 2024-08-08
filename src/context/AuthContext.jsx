@@ -24,13 +24,13 @@ export const AuthProvider = ({ children }) => {
   // Function to handle login
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("userData", JSON.stringify(userData));
   };
 
   // Function to handle logout
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.removeItem("userData");
     window.location.reload();
 
     // history.push("/"); // Redirect to home page after logout
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check if user exists in localStorage on mount
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("userData");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }

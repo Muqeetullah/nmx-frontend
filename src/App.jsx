@@ -1,3 +1,4 @@
+import Locations from "./components/TestLocation";
 import { AuthProvider } from "./context/AuthContext";
 import { BookProvider } from "./context/BookContext";
 import { ToastProvider } from "./context/ToastContext";

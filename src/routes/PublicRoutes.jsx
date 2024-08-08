@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 const isAuthenticated = () => {
-  const storedUser = localStorage.getItem("user");
+  const storedUser = localStorage.getItem("userData");
 
   if (storedUser) {
     const user = JSON.parse(storedUser);

@@ -4,36 +4,10 @@ import { toast } from "react-toastify";
 // Define Book interface with id property
 
 // Initial list of books with ids
-const initialBooks = [
-  {
-    id: 1,
-    name: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    genre: "Fiction",
-    price: 10,
-    issued: false,
-  },
-  {
-    id: 2,
-    name: "To Kill a Mockingbird",
-    author: "Harper Lee",
-    genre: "Classics",
-    price: 12,
-    issued: false,
-  },
-  {
-    id: 3,
-    name: "Harry Potter and the Philosopher's Stone",
-    author: "J.K. Rowling",
-    genre: "Fantasy",
-    price: 15,
-    issued: false,
-  },
-];
 
 // Create context with initial values
 const BookContext = createContext({
-  books: initialBooks,
+  books: [],
   addBook: () => {},
   updateBook: () => {},
   issueBook: () => {},
@@ -44,7 +18,7 @@ export const useBook = () => useContext(BookContext);
 
 // Book provider component
 export const BookProvider = ({ children }) => {
-  const [books, setBooks] = useState(initialBooks);
+  const [books, setBooks] = useState([]);
 
   // Function to generate a unique id
   const generateId = () => {

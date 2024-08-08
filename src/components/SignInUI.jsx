@@ -28,9 +28,9 @@ const SignInUI = ({ handleSubmit, register, errors }) => {
           <Box mb={3}>
             <TextField
               fullWidth
-              label="Email"
+              label="User Name"
               variant="outlined"
-              {...register("email")}
+              {...register("username")}
               error={!!errors.email}
               helperText={errors.email?.message}
             />

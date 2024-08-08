@@ -1,66 +1,121 @@
-// AddBook.tsx
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import BookFormUI from "../components/BookFormUI";
 import { useBook } from "../context/BookContext";
 import { useToast } from "../context/ToastContext";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { useMutation } from "@apollo/client";
+import { ADD_BOOK, EDIT_BOOK } from "../graphQL/Mutations";
 
 const AddBook = () => {
-  const [newBook, setNewBook] = useState({
-    id: undefined,
-    name: "",
-    author: "",
-    genre: "",
-    price: 0,
-  });
-  const [status, setStatus] = useState("");
-  const { addBook, updateBook } = useBook();
   const navigate = useNavigate();
   const location = useLocation();
-  const [errors, setErrors] = useState([]);
   const { showToast } = useToast();
 
-  const handleInputChange = (e, fieldName) => {
-    const value =
-      fieldName === "price" ? parseFloat(e.target.value) : e.target.value;
-    setNewBook({ ...newBook, [fieldName]: value });
-  };
+  const validationSchema = Yup.object().shape({
+    category: Yup.string().required("Category is required"),
+    isbn: Yup.string().required("ISBN is required"),
+    name: Yup.string().required("Book title is required"),
+    price: Yup.number()
+      .required("Price is required")
+      .min(0, "Price must be a positive number"),
+    quantity: Yup.number()
+      .required("Quantity is required")
+      .min(0, "Quantity must be a positive number"),
+  });
+  const token = localStorage.getItem("userData");
+  const authToken = JSON.parse(token).token;
+  const [AddBook] = useMutation(ADD_BOOK, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    },
+    onCompleted(data) {
+      const { book } = data;
+      console.log(book);
 
-  const handleAddOrUpdateBook = () => {
-    if (status === "Edit") {
-      updateBook(newBook);
-      showToast("Book Updated", { type: "success" });
-    } else {
       showToast("Book Added", { type: "success" });
-      addBook(newBook);
-    }
 
-    navigate("/admin/view-book-list");
-    setNewBook({
-      name: "",
-      author: "",
-      genre: "",
-      price: 0,
-    });
-    setErrors([]);
+      navigate("/admin/view-book-list");
+    },
+
+    onError(error) {
+      // toast.error("Something Went Wrong!", error);
+      showToast(error.message);
+      console.log(error);
+    },
+  });
+  const [UpdateBook] = useMutation(EDIT_BOOK, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    },
+    onCompleted(data) {
+      const { book } = data;
+      console.log(book);
+
+      showToast("Book Updated", { type: "success" });
+
+      navigate("/admin/view-book-list");
+    },
+
+    onError(error) {
+      // toast.error("Something Went Wrong!", error);
+      showToast(error.message);
+      console.log(error);
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
+
+  const onSubmit = (data) => {
+    if (location?.state?.status) {
+      const { isbn, ...rest } = data;
+
+      UpdateBook({
+        variables: {
+          input: rest, // Passing rest directly as input
+          isbn, // Passing isbn separately
+        },
+      });
+    } else {
+      AddBook({
+        variables: {
+          input: {
+            ...data,
+          },
+        },
+      });
+    }
   };
 
-  useEffect(() => {
-    if (location.state) {
-      setStatus(location.state.status);
-      setNewBook(location.state.book);
-    }
-  }, [location.state]);
+  const status = location.state?.status || "";
+  const initialValues = location.state?.book || {
+    category: "",
+    isbn: "",
+    name: "",
+    price: 0,
+    quantity: 0,
+  };
 
   return (
     <BookFormUI
-      newBook={newBook}
-      handleInputChange={handleInputChange}
-      handleAddOrUpdateBook={handleAddOrUpdateBook}
-      status={status}
+      newBook={initialValues}
+      handleSubmit={handleSubmit(onSubmit)}
+      register={register}
       errors={errors}
+      status={status}
     />
   );
 };

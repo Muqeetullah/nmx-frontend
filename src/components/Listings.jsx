@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ListingTable = ({ title, data, columns, onAdd, onEdit }) => {
+const ListingTable = ({ title, data, columns, onAdd, onEdit, onDelete }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -73,6 +73,14 @@ const ListingTable = ({ title, data, columns, onAdd, onEdit }) => {
                       onClick={() => onEdit(item)}
                     >
                       Edit
+                    </button>
+                  </td>
+                  <td className="px-4 py-3 sm:px-6 text-right">
+                    <button
+                      className="font-medium text-blue-600 hover:underline"
+                      onClick={() => onDelete(item)}
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
