@@ -1,16 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ChartsComponent from "./HighCharts";
 
 function AdminDashboard() {
   return (
     <div className="flex w-full min-h-screen pb-10 mt-10">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
           <p className="mt-2 text-sm text-gray-600">
             Welcome to the Admin Dashboard. Manage users, books, and view
             profiles.
           </p>
+        </div>
+
+        {/* Chart Container with Full Width */}
+        <div className="w-full mt-8">
+          <ChartsComponent />
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

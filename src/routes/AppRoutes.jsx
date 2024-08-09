@@ -22,9 +22,9 @@ import FallbackScreen from "../components/ErrorScreen";
 import Form from "../components/TestComponent";
 
 const AppRoutes = () => {
-  const jsonString = localStorage.getItem("user");
-  const jsonObject = JSON.parse(jsonString || "{}");
-  const role = jsonObject.role;
+  const storedUser = localStorage.getItem("userData");
+  const user = JSON.parse(storedUser);
+  const role = user?.role;
 
   const router = createBrowserRouter([
     {
