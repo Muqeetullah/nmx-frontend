@@ -43,3 +43,13 @@ export const DELETE_BOOK = gql`
     }
   }
 `;
+
+export const ADD_USER = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+      username
+      role
+    }
+  }
+`;

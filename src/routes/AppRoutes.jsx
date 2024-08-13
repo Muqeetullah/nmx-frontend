@@ -32,7 +32,7 @@ const AppRoutes = () => {
       element: (
         <PrivateRoutes>
           <Layout>
-            {role === "admin" ? <AdminDashboard /> : <UserDashboard />}
+            {role === "admin" ? <AdminDashboard /> : <BookLisitng />}
             <Outlet />
           </Layout>
         </PrivateRoutes>

@@ -1,33 +1,25 @@
 import { useLazyQuery } from "@apollo/client";
+import { useState } from "react";
 
-export function useGenericQuery({
-  query,
-  authToken,
-  variables,
-  onSuccess,
-  onError,
-}) {
-  const [executeQueryLazy, { loading, data, error }] = useLazyQuery(query, {
+const useDataQuery = (query, authToken) => {
+  const [data, setData] = useState([]);
+  const [queryData, { loading, error }] = useLazyQuery(query, {
     fetchPolicy: "no-cache",
     context: {
       clientName: "backend",
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${authToken}`, // Pass the token here
       },
     },
-    onCompleted(responseData) {
-      console.log("Query completed:", responseData);
-      if (onSuccess) onSuccess(responseData);
+    onCompleted: (data) => {
+      setData(data);
     },
-    onError(errorResponse) {
-      console.log("Something went wrong", errorResponse);
-      if (onError) onError(errorResponse);
+    onError: (error) => {
+      console.log("Something went wrong", error);
     },
   });
 
-  const executeQuery = (newVariables) => {
-    executeQueryLazy({ variables: newVariables || variables });
-  };
+  return { data, queryData, loading, error };
+};
 
-  return { executeQuery, loading, data, error };
-}
+export default useDataQuery;

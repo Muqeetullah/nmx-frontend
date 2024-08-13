@@ -4,15 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { useBook } from "../context/BookContext";
 import ListingTable from "../components/Listings";
 import { GET_BOOKS } from "../graphQL/Queries";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { DELETE_BOOK } from "../graphQL/Mutations";
+import { SUBSCRIBE_BOOK } from "../graphQL/Subscription";
 
 const BookLisitng = () => {
   const navigate = useNavigate();
 
   const [books, setBooks] = useState([]);
   const token = localStorage.getItem("userData");
+
   const authToken = JSON.parse(token).token;
+  const role = JSON.parse(token).role;
   const [checkDelete, setCheckDelete] = useState(false);
 
   const [Query, { loading, error }] = useLazyQuery(GET_BOOKS, {
@@ -79,7 +82,11 @@ const BookLisitng = () => {
   const onDelete = (book) => {
     DeleteBook({ variables: { isbn: book.isbn } });
   };
-
+  const { data } = useSubscription(
+    SUBSCRIBE_BOOK
+    // { variables: { postID } }
+  );
+  console.log(data);
   if (loading || deleteLoading) {
     return <div>Loading...</div>;
   }
@@ -90,6 +97,7 @@ const BookLisitng = () => {
 
   return (
     <ListingTable
+      role={role}
       title="Book Listing"
       data={books}
       columns={columns}

@@ -12,11 +12,17 @@ import {
   InputLabel,
   FormHelperText,
   IconButton,
+  InputAdornment,
 } from "@mui/material";
 import { useFormContext, Controller, useFieldArray } from "react-hook-form";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-
+import EmailIcon from "@mui/icons-material/Email";
+import PersonIcon from "@mui/icons-material/Person";
+import SchoolIcon from "@mui/icons-material/School";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import BadgeIcon from "@mui/icons-material/Badge";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
   const {
     register,
@@ -28,28 +34,25 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
   } = useFormContext();
 
   const role = watch("role");
-  const previousRoleRef = useRef(role);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "books",
   });
 
   useEffect(() => {
-    if (previousRoleRef.current !== role) {
-      if (role === "admin" || role === "") {
-        setValue("semester", "");
-        setValue("studentId", "");
-      }
-      previousRoleRef.current = role;
+    if (role === "admin" || role === "") {
+      setValue("semester", "");
+      setValue("studentId", "");
     }
-  }, [role, setValue]);
+  }, [role]);
 
   const { errors, isDirty, isValid, dirtyFields } = formState;
 
   return (
     <Container maxWidth="sm" sx={{ mt: 10 }}>
       <Box p={3} boxShadow={3} borderRadius={2} bgcolor="white">
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h5" component="h1" gutterBottom>
           {status === "Edit" ? "Edit User" : "Add a New User"}
         </Typography>
         <form onSubmit={handleAddOrUpdateUser}>
@@ -64,6 +67,13 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                     label="Name"
                     variant="outlined"
                     {...field}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <PersonIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     error={!!errors.name}
                     helperText={errors.name && errors.name.message}
                   />
@@ -80,6 +90,13 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                     label="Email"
                     variant="outlined"
                     {...field}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <EmailIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     error={!!errors.email}
                     helperText={errors.email && errors.email.message}
                   />
@@ -124,6 +141,13 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                     label="Education"
                     variant="outlined"
                     {...field}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <SchoolIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     error={!!errors.education}
                     helperText={errors.education && errors.education.message}
                   />
@@ -141,6 +165,13 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                     type="number"
                     variant="outlined"
                     {...field}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          <CalendarTodayIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                     error={!!errors.age}
                     helperText={errors.age && errors.age.message}
                   />
@@ -176,7 +207,7 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                 )}
               />
             </Grid>
-            {showUserFields && (
+            {showUserFields === "user" && (
               <>
                 <Grid item xs={12} sm={6}>
                   <Controller
@@ -188,7 +219,14 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                         label="Student ID"
                         variant="outlined"
                         {...field}
-                        error={!!dirtyFields.studentId && !!errors.studentId}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              <BadgeIcon />
+                            </InputAdornment>
+                          ),
+                        }}
+                        error={dirtyFields.studentId && errors.studentId}
                         helperText={
                           dirtyFields.studentId && errors.studentId?.message
                         }
@@ -199,25 +237,25 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
 
                 <Grid item xs={12} sm={6}>
                   <Controller
-                    name="email"
+                    name="semester"
                     control={control}
                     render={({ field }) => (
                       <TextField
                         fullWidth
-                        label="Email"
+                        label="Semester"
                         variant="outlined"
                         {...field}
-                        error={!!errors.email}
-                        helperText={errors.email && errors.email.message}
+                        error={!!errors.semester}
+                        helperText={errors.semester && errors.semester.message}
                       />
                     )}
                   />
                 </Grid>
               </>
             )}
-            {fields.map((field, index) => (
+            {fields?.map((field, index) => (
               <Grid container item spacing={2} key={field.id}>
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={5} md={5}>
                   <Controller
                     name={`books.${index}.bookName`}
                     control={control}
@@ -227,12 +265,19 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                         label="Book Name"
                         type="text"
                         variant="outlined"
+                        // InputProps={{
+                        //   endAdornment: (
+                        //     <InputAdornment position="start">
+                        //       <LibraryBooksIcon />
+                        //     </InputAdornment>
+                        //   ),
+                        // }}
                         {...field}
                       />
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} sm={5}>
+                <Grid item xs={4} md={4}>
                   <Controller
                     name={`books.${index}.issueDate`}
                     control={control}
@@ -241,12 +286,19 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                         fullWidth
                         label="Issue Date"
                         variant="outlined"
+                        // InputProps={{
+                        //   endAdornment: (
+                        //     <InputAdornment position="start">
+                        //       <CalendarTodayIcon />
+                        //     </InputAdornment>
+                        //   ),
+                        // }}
                         {...field}
                       />
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} sm={1}>
+                <Grid item xs={1.5}>
                   <Button
                     onClick={() => append({ bookName: "", issueDate: "" })}
                     sx={{ mt: 1 }}
@@ -254,7 +306,7 @@ const UserFormUI = ({ status, handleAddOrUpdateUser, showUserFields }) => {
                     <AddIcon />
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={1}>
+                <Grid item xs={0.5}>
                   {index > 0 && (
                     <IconButton
                       sx={{ mt: 1, color: "#5C9EDF" }}

@@ -11,26 +11,26 @@ const UserListing = () => {
 
   const token = localStorage.getItem("userData");
   const authToken = JSON.parse(token).token;
+  const { users } = useUser();
+  // const [Users] = useLazyQuery(GET_USERS, {
+  //   fetchPolicy: "no-cache",
+  //   context: {
+  //     clientName: "backend",
+  //     headers: {
+  //       Authorization: `Bearer ${authToken}`, // Pass the token here
+  //     },
+  //   },
+  //   onCompleted(data) {
+  //     console.log(data.users);
+  //   },
+  //   onError(error) {
+  //     console.log("Something went wrong", error);
+  //   },
+  // });
 
-  const [Users] = useLazyQuery(GET_USERS, {
-    fetchPolicy: "no-cache",
-    context: {
-      clientName: "backend",
-      headers: {
-        Authorization: `Bearer ${authToken}`, // Pass the token here
-      },
-    },
-    onCompleted(data) {
-      console.log(data.users);
-    },
-    onError(error) {
-      console.log("Something went wrong", error);
-    },
-  });
-
-  useEffect(() => {
-    Users();
-  }, []);
+  // useEffect(() => {
+  //   Users();
+  // }, []);
 
   const columns = [
     { header: "Name", accessor: "name" },
@@ -51,14 +51,16 @@ const UserListing = () => {
     });
   };
 
-  return "aa";
-  // <ListingTable
-  //   title="User Listing"
-  //   // data={users}
-  //   columns={columns}
-  //   onAdd={handleAddUser}
-  //   onEdit={handleEditUser}
-  // />
+  return (
+    <ListingTable
+      title="User Listing"
+      data={users}
+      columns={columns}
+      onAdd={handleAddUser}
+      onEdit={handleEditUser}
+      roles={["Admin", "User", "Manager"]}
+    />
+  );
 };
 
 export default UserListing;

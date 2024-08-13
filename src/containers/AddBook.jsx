@@ -6,8 +6,9 @@ import { useToast } from "../context/ToastContext";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { useMutation } from "@apollo/client";
+import { useMutation, useSubscription } from "@apollo/client";
 import { ADD_BOOK, EDIT_BOOK } from "../graphQL/Mutations";
+import { SUBSCRIBE_BOOK } from "../graphQL/Subscription";
 
 const AddBook = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const AddBook = () => {
   });
   const token = localStorage.getItem("userData");
   const authToken = JSON.parse(token).token;
+  const role = JSON.parse(token).role;
   const [AddBook] = useMutation(ADD_BOOK, {
     context: {
       headers: {
@@ -48,6 +50,20 @@ const AddBook = () => {
       console.log(error);
     },
   });
+
+  // useSubscription(SUBSCRIBE_BOOK, {
+  //   onSubscriptionData: ({ subscriptionData }) => {
+  //     if (subscriptionData.data) {
+  //       console.log(subscriptionData.data);
+  //     }
+  //   },
+  // });
+
+  // if (token.role === "admin") {
+  //   console.log("Asa", data);
+  //   showToast("A new book was added");
+  // }
+
   const [UpdateBook] = useMutation(EDIT_BOOK, {
     context: {
       headers: {
