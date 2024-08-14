@@ -22,6 +22,24 @@ const initialUsers = [
     age: 35,
     gender: "Female",
   },
+  {
+    id: 3,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    role: "Admin",
+    education: "B.Sc. in Computer Science",
+    age: 30,
+    gender: "Male",
+  },
+  {
+    id: 4,
+    name: "Jane Doe",
+    email: "jane.doe@example.com",
+    role: "Manager",
+    education: "M.Sc. in Computer Science",
+    age: 28,
+    gender: "Female",
+  },
 ];
 
 // Create context with initial values

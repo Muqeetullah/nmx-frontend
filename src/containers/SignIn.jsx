@@ -19,7 +19,7 @@ const schema = yup
 const SignIn = () => {
   const navigate = useNavigate();
 
-  const [LoginUser] = useMutation(SIGNIN, {
+  const [LoginUser, { loading }] = useMutation(SIGNIN, {
     onCompleted(data) {
       const { success, message, loginUser } = data;
 
@@ -49,6 +49,14 @@ const SignIn = () => {
 
   const onSubmit = (data) => {
     const { username, password } = data;
+    // const user = {
+    //   username,
+    //   password,
+    //   role: username,
+    //   token: username,
+    // };
+    // localStorage.setItem("userData", JSON.stringify(user));
+    navigate("/");
     LoginUser({
       variables: {
         username,
@@ -62,6 +70,7 @@ const SignIn = () => {
       handleSubmit={handleSubmit(onSubmit)}
       register={register}
       errors={errors}
+      loading={loading}
     />
   );
 };

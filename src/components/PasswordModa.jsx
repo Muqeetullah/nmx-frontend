@@ -1,71 +1,81 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Fade,
-  Backdrop,
-} from "@mui/material";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Box, Typography, TextField, Button } from "@mui/material";
 
-const PasswordField = ({ name, label }) => {
+// Validation Schema using Yup
+const schema = yup.object({
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match")
+    .required("Confirm Password is required"),
+});
+
+const ChangePasswordForm = () => {
   const {
     register,
+    handleSubmit,
     formState: { errors },
-  } = useFormContext();
-  return (
-    <TextField
-      fullWidth
-      margin="normal"
-      label={label}
-      type="password"
-      {...register(name)}
-      error={!!errors[name]}
-      helperText={errors[name]?.message}
-    />
-  );
-};
-
-const ChangePasswordModal = ({ open, handleClose }) => {
-  const { handleSubmit, reset } = useFormContext();
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = (data) => {
     console.log("Password Changed:", data);
-    handleClose();
+    reset(); // Reset form fields after submission
   };
 
   return (
-    <Modal open={open} onClose={handleClose} closeAfterTransition>
-      <Fade in={open}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            border: "2px solid #000",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography variant="h6" component="h2">
+    <div className="flex w-full justify-center items-center h-screen ">
+      <Box
+        sx={{
+          width: 400,
+          bgcolor: "background.paper",
+          p: 4,
+          borderRadius: 1,
+        }}
+      >
+        <Typography variant="h6" component="h2" align="center">
+          Change Password
+        </Typography>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Password"
+            type="password"
+            {...register("password")}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Confirm Password"
+            type="password"
+            {...register("confirmPassword")}
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword?.message}
+          />
+          <Button
+            color="primary"
+            variant="contained"
+            fullWidth
+            type="submit"
+            sx={{ mt: 2 }}
+          >
             Change Password
-          </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <PasswordField name="password" label="Password" />
-            <PasswordField name="confirmPassword" label="Confirm Password" />
-            <Button color="primary" variant="contained" fullWidth type="submit">
-              Change Password
-            </Button>
-          </form>
-        </Box>
-      </Fade>
-    </Modal>
+          </Button>
+        </form>
+      </Box>
+    </div>
   );
 };
 
-export default ChangePasswordModal;
+export default ChangePasswordForm;

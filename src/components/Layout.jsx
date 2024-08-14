@@ -2,12 +2,15 @@ import { ErrorBoundary } from "react-error-boundary";
 import Header from "./Header";
 import React from "react";
 import FallbackScreen from "./ErrorScreen";
+
 const Layout = ({ children }) => {
   return (
-    <div className=" w-[100%]">
+    <div className="w-full min-h-screen">
       <Header />
       <ErrorBoundary FallbackComponent={FallbackScreen}>
-        <div className="flex space-x-2 md:space-x-8">{children}</div>
+        <div className="flex flex-col space-y-2 md:space-y-8 px-4 md:px-8">
+          {children}
+        </div>
       </ErrorBoundary>
     </div>
   );

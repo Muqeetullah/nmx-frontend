@@ -6,9 +6,10 @@ import {
   Typography,
   Box,
   Stack,
+  CircularProgress,
 } from "@mui/material";
 
-const SignInUI = ({ handleSubmit, register, errors }) => {
+const SignInUI = ({ handleSubmit, register, errors, loading }) => {
   return (
     <Container
       maxWidth="sm"
@@ -46,8 +47,14 @@ const SignInUI = ({ handleSubmit, register, errors }) => {
               helperText={errors.password?.message}
             />
           </Box>
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Sign In
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={loading}
+          >
+            {loading ? <CircularProgress /> : "Sign In"}
           </Button>
         </form>
       </Stack>

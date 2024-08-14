@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [role, setRole] = useState("");
   const [auth, setAuth] = useState("");
   const location = useLocation();
@@ -42,14 +41,14 @@ const Header = () => {
           <div className="flex items-center lg:order-2">
             {auth ? (
               <button
-                className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => logout()}
               >
                 Logout
               </button>
             ) : (
               <button
-                className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => navigate("/login")}
               >
                 Login
@@ -98,43 +97,37 @@ const Header = () => {
             id="mobile-menu-2"
           >
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-              {role === "admin" && (
-                <>
-                  <li>
-                    <Link
-                      to="/admin/view-user-list"
-                      className={getLinkClass("/admin/view-user-list")}
-                    >
-                      Users
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/admin/view-book-list"
-                      className={getLinkClass("/admin/view-book-list")}
-                    >
-                      Books
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/view-issued-book-list"
-                      className={getLinkClass("/view-issued-book-list")}
-                    >
-                      Issued Books
-                    </Link>
-                  </li>
-
-                  <li>
-                    <Link
-                      to="/admin/profile"
-                      className={getLinkClass("/admin/profile")}
-                    >
-                      Profile
-                    </Link>
-                  </li>
-                </>
-              )}
+              <>
+                {role === "admin" && (
+                  <>
+                    <li>
+                      <Link
+                        to="/admin/view-user-list"
+                        className={getLinkClass("/admin/view-user-list")}
+                      >
+                        Users
+                      </Link>
+                    </li>
+                  </>
+                )}
+                <li>
+                  <Link
+                    to="/admin/view-book-list"
+                    className={getLinkClass("/admin/view-book-list")}
+                  >
+                    Books
+                  </Link>
+                </li>
+                {role === "user" && (
+                  <>
+                    <li>
+                      <Link to="/profile" className={getLinkClass("/profile")}>
+                        Profile
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </>
             </ul>
           </div>
         </div>

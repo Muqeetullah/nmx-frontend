@@ -86,7 +86,7 @@ const BookLisitng = () => {
     SUBSCRIBE_BOOK
     // { variables: { postID } }
   );
-  console.log(data);
+
   if (loading || deleteLoading) {
     return <div>Loading...</div>;
   }
@@ -104,6 +104,7 @@ const BookLisitng = () => {
       onAdd={handleAddUser}
       onEdit={handleEditUser}
       onDelete={onDelete}
+      roles={["Health", "Action", "Fighting", "Sports", "Drama"]}
     />
   );
 };

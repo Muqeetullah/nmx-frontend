@@ -20,6 +20,9 @@ import CarouselController from "../components/CarouselController";
 import { ErrorBoundary } from "react-error-boundary";
 import FallbackScreen from "../components/ErrorScreen";
 import Form from "../components/TestComponent";
+import AdminPermission from "./AdminRoutes";
+import Profile from "../containers/Profile";
+import UserPermission from "./UserRoutes";
 
 const AppRoutes = () => {
   const storedUser = localStorage.getItem("userData");
@@ -42,9 +45,9 @@ const AppRoutes = () => {
       path: "admin",
       element: (
         <PrivateRoutes>
-          <Layout>
+          <AdminPermission>
             <Outlet />
-          </Layout>
+          </AdminPermission>
         </PrivateRoutes>
       ),
       children: [
@@ -62,6 +65,16 @@ const AppRoutes = () => {
         </ErrorBoundary>
       ),
     },
+
+    {
+      path: "profile",
+      element: (
+        <UserPermission>
+          <Profile />
+        </UserPermission>
+      ),
+    },
+
     // {
     //   path: "/view-issued-book-list",
     //   element: (
