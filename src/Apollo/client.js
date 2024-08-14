@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, split } from "@apollo/client";
-import { WebSocketLink } from "@apollo/client/link/ws";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+
+import { getMainDefinition } from "@apollo/client/utilities/index.js";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions/index.js";
 import { createClient } from "graphql-ws";
 
 // Function to get the auth token from local storage
