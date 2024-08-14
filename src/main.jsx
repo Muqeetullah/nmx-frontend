@@ -5,10 +5,20 @@ import App from "./App.jsx";
 import "./index.css";
 import client from "./Apollo/client.js";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </React.StrictMode>
-);
+const render = () => {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </React.StrictMode>
+  );
+};
+
+render();
+
+if (module.hot) {
+  module.hot.accept("./App.jsx", () => {
+    render();
+  });
+}

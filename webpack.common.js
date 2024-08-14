@@ -1,3 +1,4 @@
+// webpack/webpack.common.js
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
@@ -12,15 +13,20 @@ export default {
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
-    fullySpecified: false,
     alias: {
       "@": path.resolve(__dirname, "src"),
+      "@components": path.resolve(__dirname, "src/components"),
+      "@context": path.resolve(__dirname, "src/context"),
+      "@containers": path.resolve(__dirname, "src/containers"),
+      "@hooks": path.resolve(__dirname, "src/hooks"),
+      "@graphql": path.resolve(__dirname, "src/graphQL"),
+      "@routes": path.resolve(__dirname, "src/routes"),
     },
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -29,13 +35,10 @@ export default {
           },
         },
       },
-
       {
         test: /\.css$/i,
-        include: path.resolve(__dirname, "src"),
         use: ["style-loader", "css-loader", "postcss-loader"],
       },
-
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
@@ -47,12 +50,4 @@ export default {
       template: "./index.html",
     }),
   ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "dist"),
-    },
-    compress: true,
-    port: 9000,
-    open: true,
-  },
 };
