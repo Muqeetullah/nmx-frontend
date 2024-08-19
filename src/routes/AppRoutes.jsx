@@ -23,6 +23,7 @@ import FallbackScreen from "../components/ErrorScreen";
 import AdminPermission from "./AdminRoutes";
 import Profile from "../containers/Profile";
 import UserPermission from "./UserRoutes";
+import Unauthorized from "@components/UnAuth";
 
 const AppRoutes = () => {
   const storedUser = localStorage.getItem("userData");
@@ -96,6 +97,10 @@ const AppRoutes = () => {
           </ErrorBoundary>
         </PublicRoutes>
       ),
+    },
+    {
+      path: "unauthorized",
+      element: <Unauthorized />,
     },
     {
       path: "*",

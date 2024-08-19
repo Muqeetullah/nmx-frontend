@@ -10,7 +10,7 @@ const UserPermission = ({ children }) => {
   return role === "user" ? (
     <Layout>{children}</Layout>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/unauthorized" />
   );
 };
 

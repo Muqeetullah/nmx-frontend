@@ -1,7 +1,13 @@
 // BookFormUI.tsx
 import React from "react";
 
-const BookFormUI = ({ newBook, handleSubmit, register, errors, status }) => {
+export const BookFormUI = ({
+  newBook,
+  handleSubmit,
+  register,
+  errors,
+  status,
+}) => {
   return (
     <div className="flex w-full items-center justify-center mt-10">
       <div className="mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
@@ -126,4 +132,4 @@ const BookFormUI = ({ newBook, handleSubmit, register, errors, status }) => {
   );
 };
 
-export default BookFormUI;
+// export default BookFormUI;

@@ -1,6 +1,8 @@
 // webpack/webpack.common.js
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import Dotenv from "dotenv-webpack";
+import { InjectManifest } from "workbox-webpack-plugin";
 
 const __dirname = path.resolve();
 
@@ -49,5 +51,6 @@ export default {
     new HtmlWebpackPlugin({
       template: "./index.html",
     }),
+    new Dotenv(),
   ],
 };

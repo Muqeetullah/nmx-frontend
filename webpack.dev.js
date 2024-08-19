@@ -11,7 +11,10 @@ export default merge(common, {
       directory: "./dist",
     },
     compress: true,
-    port: 9000,
+    historyApiFallback: true,
+    devMiddleware: {
+      writeToDisk: true, // This ensures that files are written to disk, which is necessary for the service worker
+    },
     open: true,
     hot: true, // Enable Hot Module Replacement
   },

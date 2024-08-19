@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 
 const SignInUI = ({ handleSubmit, register, errors, loading }) => {
+  console.log("Hello", process.env.API_KEY);
+
   return (
     <Container
       maxWidth="sm"

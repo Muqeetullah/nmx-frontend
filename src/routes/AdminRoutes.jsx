@@ -12,7 +12,7 @@ const AdminPermission = () => {
       <Outlet />{" "}
     </Layout>
   ) : (
-    <Navigate to="/login" />
+    <Navigate to="/unauthorized" />
   );
 };
 

@@ -15,6 +15,7 @@ const useOverlay = () => {
 };
 
 const ListingTable = ({
+  role,
   title,
   data,
   columns,
@@ -73,7 +74,7 @@ const ListingTable = ({
         <>
           <button
             onClick={overlay.open}
-            className="fixed top-4 left-4 z-20 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-200"
+            className="fixed top-4 left-4 z-20 bg-[#55c2da] text-white p-2 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-200"
           >
             <MenuIcon />
           </button>
@@ -106,15 +107,24 @@ const ListingTable = ({
             <h1 className="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">
               {title}
             </h1>
-            <button
-              className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
-              onClick={onAdd}
-            >
-              Add {title}
-            </button>
+            {role === "admin" && (
+              <button
+                className="w-full sm:w-auto bg-[#218197] hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-colors duration-200"
+                onClick={onAdd}
+              >
+                Add {title}
+              </button>
+            )}
           </div>
           <div className="mb-6">
+            <label
+              htmlFor="searchInput"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Search
+            </label>
             <input
+              id="searchInput" // Added id to link with label
               type="text"
               placeholder={`Search ${title}`}
               value={searchQuery}
@@ -122,6 +132,7 @@ const ListingTable = ({
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
+
           <div className="bg-white overflow-x-auto shadow-xl sm:rounded-lg">
             <table className="w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -156,30 +167,32 @@ const ListingTable = ({
                           {item[column.accessor]}
                         </td>
                       ))}
-                      <td className=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          className="text-blue-600 hover:text-blue-900 mr-4 "
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onEdit(item);
-                          }}
-                        >
-                          {isMdOrLarger ? "Edit" : null}
-                        </button>
-                        <button
-                          className="text-blue-600 hover:text-blue-900 mr-4"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDelete(item);
-                          }}
-                        >
-                          {isMdOrLarger ? (
-                            "Delete"
-                          ) : (
-                            <Delete className="text-blue-600 hover:text-blue-800" />
-                          )}
-                        </button>
-                      </td>
+                      {role === "admin" && (
+                        <td className=" px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <button
+                            className="text-blue-600 hover:text-blue-900 mr-4 "
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onEdit(item);
+                            }}
+                          >
+                            {isMdOrLarger ? "Edit" : null}
+                          </button>
+                          <button
+                            className="text-blue-600 hover:text-blue-900 mr-4"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onDelete(item);
+                            }}
+                          >
+                            {isMdOrLarger ? (
+                              "Delete"
+                            ) : (
+                              <Delete className="text-blue-600 hover:text-blue-800" />
+                            )}
+                          </button>
+                        </td>
+                      )}
                     </tr>
                   ))
                 ) : (

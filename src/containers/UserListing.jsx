@@ -11,6 +11,8 @@ const UserListing = () => {
 
   const token = localStorage.getItem("userData");
   const authToken = JSON.parse(token).token;
+
+  const role = JSON.parse(token);
   const { users } = useUser();
   // const [Users] = useLazyQuery(GET_USERS, {
   //   fetchPolicy: "no-cache",
@@ -53,6 +55,7 @@ const UserListing = () => {
 
   return (
     <ListingTable
+      role={role}
       title="User Listing"
       data={users}
       columns={columns}
